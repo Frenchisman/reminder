@@ -1,0 +1,5 @@
+Here is your activation key :
+
+{#{% if request.is_secure %}https://{% else %}#}
+{# @TODO find url #}
+http://{{ request.get_host }}/activate/{{activation_key}}

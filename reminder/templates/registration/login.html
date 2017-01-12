@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{# REWRITE https://docs.djangoproject.com/fr/1.10/topics/auth/default/#django.contrib.auth.views.login #}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	{% include "reminder/includes/menu.html" %}
+	<form action="." method="post">
+		{% csrf_token %}
+		{{form.as_p}}
+		<input type="submit" value="Log In">
+		<input type="hidden" name="next" value="{% if next == '' %}{% url 'dashboard' %}{% else %}{{next}}{% endif %}" />
+	</form>
+</body>
+</html>

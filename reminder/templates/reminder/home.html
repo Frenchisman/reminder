@@ -1,0 +1,38 @@
+{% load static %}
+{% load compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	{# <link rel="stylesheet" href="{{STATIC_URL}}reminder/css/base.css"/> #}
+ 	{% compress css %}
+		<link rel="stylesheet" href="{{ STATIC_URL }}reminder/less/base.less" media="all" type="text/less"/>
+	{% endcompress %}
+</head>
+<body>
+	{% include "reminder/includes/menu.html" %}
+	{# If user is not logged in : display login form #}
+	{% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+				<li>{{message}}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+	{% if info %}
+	<h1>{{info}}</h1>
+		
+	{% endif %}
+
+	{% if not user.is_authenticated %}
+		<form action="." method="post">
+			{% csrf_token %}
+			{{form.as_p}}
+			<input type="submit" value="Log In"/>
+		</form>
+	{% endif %}
+	<p> Main page content</p>
+
+</body>
+</html>
