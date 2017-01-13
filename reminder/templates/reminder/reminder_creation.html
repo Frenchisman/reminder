@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+	
+	<form action="." method="post" class="form">
+	{% csrf_token %}
+		{% bootstrap_form form %}
+		{% buttons %}
+		<button type="submit" class="btn btn-primary">
+		{% bootstrap_icon star %}Create
+		</button>
+		{% endbuttons %}
+	</form>
+{% endblock content %}
+{% block extrascript %}
+	<script type='text/javascript' src='{% static 'js/jquery-ui.min.js' %}'></script>
+	<script type='text/javascript' src='{% static 'jquery-mousewheel/js/jquery-mousewheel.min.js' %}'></script>
+	<script type='text/javascript' src='{% static 'datebox/js/jtsage-datebox.min.js' %}'></script>
+{% endblock %}

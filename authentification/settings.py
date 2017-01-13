@@ -39,6 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    # https://pypi.python.org/pypi/django-jquery/3.1.0
+    'jquery',
+    # https://django-bootstrap3.readthedocs.io/en/latest/index.html
+    'bootstrap3',
+    # https://github.com/benbacardi/django-jquery-ui
+    'jquery_ui',
     'compressor',
     'reminder',
 

@@ -1,0 +1,34 @@
+{% load static %}
+{% load compress %}
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}
+		
+	{% endblock title %}
+	</title>
+	{% bootstrap_css %}
+	{% if debug %}
+		<link rel="stylesheet/less" href="{% static "reminder/less/base.less" %}" type="text/css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
+	<link rel="stylesheet" href="{% static "reminder/less/base.less" %}">
+	{% block extrahead %}
+		
+	{% endblock extrahead %}
+	{% endif %}
+</head>
+<body>
+	{% include "reminder/includes/menu.html" %}
+	{% bootstrap_messages %}
+	{% block content %}
+		
+	{% endblock content %}
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+	{% bootstrap_javascript %}
+	{% block extrascript %}
+		
+	{% endblock extrascript %}
+</body>
+</html>

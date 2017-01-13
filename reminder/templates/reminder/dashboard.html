@@ -1,11 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	{% include "reminder/includes/menu.html" %}
+{% extends "reminder/base.html" %}
+{% block content %}
+	
 	<p>Welcome to the Dashboard ! It's all fun and games !</p>
-</body>
-</html>
+	{% for reminder in reminder_list  %}
+		<p>{{reminder.subject}} <a href="#" data-href="{% url 'delete_reminder' reminder.id %}" data-toggle="modal" data-target="#confirm-delete">Delete</a></p>
+		<hr/>		
+	{% endfor %}
+
+	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                ...
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extrascript %}
+	<script type="text/javascript">$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});</script>
+{% endblock extrascript %}

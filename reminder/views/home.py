@@ -50,3 +50,12 @@ class LogoutView(View):
         logout(request)
         messages.add_message(request, messages.INFO, "Disconnect Successful")
         return HttpResponseRedirect(reverse('home'))
+
+
+class ForbiddenView(View):
+
+    template_name = 'reminder/forbidden.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+

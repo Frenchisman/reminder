@@ -2,3 +2,6 @@ Django
 django-debug-toolbar
 django-registration
 django_compressor
+django-jquery
+django-bootstrap3
+django-jquery-ui
