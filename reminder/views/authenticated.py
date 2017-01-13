@@ -124,6 +124,7 @@ class ReminderEditView(LoginRequiredMixin, View):
 
         form = self.form_class(request.POST)
 
+        # If infos have changed, update the reminder object
         if form.is_valid():
             if form.has_changed():
                 reminder.recipient_email=form.cleaned_data['recipient_email']
@@ -131,14 +132,11 @@ class ReminderEditView(LoginRequiredMixin, View):
                 reminder.body=form.cleaned_data['body']
                 reminder.day_to_send=form.cleaned_data['day_to_send']
                 reminder.time_to_send=form.cleaned_data['time_to_send']
-            reminder.save()
+                reminder.save()
             messages.add_message(request, messages.INFO, 'Reminder edited successfully.')
             return dashboard()
         context = { 'form' : form }
         return render(request, self.template_name, context)
-
-
-# reminder.update(recipient_email=form.cleaned_data['recipient_email'], subject=form.cleaned_data['subject'], body=form.cleaned_data['body'], day_to_send=form.cleaned_data['day_to_send'], time_to_send=form.cleaned_data['time_to_send'])
 
 
 class ReminderDeleteView(LoginRequiredMixin, View):
