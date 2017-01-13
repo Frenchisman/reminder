@@ -1,16 +1,33 @@
-{% extends "base.html" %}
+{% extends "reminder/base.html" %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block extrahead %}
+	<link rel="stylesheet" href="{% static "datebox/css/jtsage-datebox.min.css" %}">
+{% endblock extrahead %}
+
 {% block content %}
 	
 	<form action="." method="post" class="form">
 	{% csrf_token %}
 		{% bootstrap_form form %}
 		{% buttons %}
-		<button type="submit" class="btn btn-primary">
-		{% bootstrap_icon star %}Create
-		</button>
+		<div class="btn-group" role="group">			
+			<button type="submit" class="btn btn-primary">
+				{% bootstrap_icon star %}
+				{% block reminder_button_text %}
+					Create
+				{% endblock reminder_button_text %}
+			</button>
+			<a href="{% url 'dashboard' %}" class="btn btn-warning">
+				Cancel
+			</a>
+		</div>
+
 		{% endbuttons %}
 	</form>
 {% endblock content %}
+
 {% block extrascript %}
 	<script type='text/javascript' src='{% static 'js/jquery-ui.min.js' %}'></script>
 	<script type='text/javascript' src='{% static 'jquery-mousewheel/js/jquery-mousewheel.min.js' %}'></script>

@@ -6,7 +6,7 @@ from reminder.views.registration import EmailRegistrationView
 from reminder.forms.account_forms import UserRegistrationForm
 # from registration import views as registration_views
 from reminder.views.home import HomeView, LogoutView, ForbiddenView
-from reminder.views.authenticated import DashboardView, ReminderCreationView, ReminderDeleteView
+from reminder.views.authenticated import DashboardView, ReminderCreationView, ReminderDeleteView, ReminderEditView
 from django.views.generic import RedirectView
 
 
@@ -16,10 +16,9 @@ urlpatterns = [
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^create/$', ReminderCreationView.as_view(), name='rem_create'),
     url(r'^delete/(?P<rem_id>[0-9]+)/$', ReminderDeleteView.as_view(), name='delete_reminder'),
-    # test this view
+    url(r'^edit/(?P<rem_id>[0-9]+)/$', ReminderEditView.as_view(), name='edit_reminder'),
     url(r'forbidden/$', ForbiddenView.as_view(), name='forbidden'),
     #edit
-    #delete
     url(r'^accounts/register/$', 
         EmailRegistrationView.as_view(),
         name='registration_register'
