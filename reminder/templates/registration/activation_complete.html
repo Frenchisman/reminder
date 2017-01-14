@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	Your account was activated. Have fun !
-</body>
-</html>
+{% extends "reminder/base.html" %}
+{% load static %}
+{% load bootstrap3 %}
+{% block content %}
+<div id="activation-complete" class="row">
+	<div class="col-xs-12">
+	<p>
+		Your account is now activated, you can now <a href="{% url 'dashboard' %}">Log In</a> and start reminding !
+	</p>
+		
+	</div>
+</div>
+{% endblock content %}	

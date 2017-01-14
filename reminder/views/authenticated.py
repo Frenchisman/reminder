@@ -8,9 +8,11 @@ from reminder.models import Reminder
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+
 def dashboard():
     '''Return a redirect to dashboard'''
     return HttpResponseRedirect(reverse('dashboard'))
+
 
 class DashboardView(LoginRequiredMixin, View):
     ''' Display the reminder Dashboard'''
@@ -52,10 +54,11 @@ class ReminderCreationView(LoginRequiredMixin, View):
                 time_to_send=form.cleaned_data['time_to_send']
             )
             r.save()
-            messages.add_message(request, messages.INFO, 'Reminder Created Successfully.')
+            messages.add_message(request, messages.INFO,
+                                 'Reminder Created Successfully.')
             return dashboard()
 
-        return render(request, self.template_name, {'form':form})
+        return render(request, self.template_name, {'form': form})
 
 
 class ReminderEditView(LoginRequiredMixin, View):
@@ -64,10 +67,9 @@ class ReminderEditView(LoginRequiredMixin, View):
     login_url = reverse_lazy('auth_login')
     template_name = 'reminder/reminder_edition.html'
 
-
     def get(self, request, *args, **kwargs):
         '''Get request for reminder edit form.'''
-        #Get id from url
+        # Get id from url
         rem_id = kwargs['rem_id']
         try:
             reminder = Reminder.objects.get(id=rem_id)
@@ -76,33 +78,34 @@ class ReminderEditView(LoginRequiredMixin, View):
 
         # Warn user if reminder does not exist anymore.
         if reminder is None:
-            messages.add_message(request, messages.INFO,'This reminder does not exist anymore.')
+            messages.add_message(request, messages.INFO,
+                                 'This reminder does not exist anymore.')
             return dashboard()
 
-        #Redirect user if trying to edit someone else's reminder.
+        # Redirect user if trying to edit someone else's reminder.
         if reminder.sender_id != request.user.id:
             return HttpResponseRedirect(reverse('forbidden'))
 
         if reminder.is_sent:
-            messages.add_message(request, messages.INFO, 'This reminder has already been sent. It can not be edited.')
+            messages.add_message(
+                request, messages.INFO, 'This reminder has already been sent. It can not be edited.')
             return dashboard()
 
         form = self.form_class(initial={
-                'recipient_email':reminder.recipient_email,
-                'subject':reminder.subject,
-                'day_to_send':reminder.day_to_send,
-                'time_to_send':reminder.time_to_send,
-                'body':reminder.body
-            })
+            'recipient_email': reminder.recipient_email,
+            'subject': reminder.subject,
+            'day_to_send': reminder.day_to_send,
+            'time_to_send': reminder.time_to_send,
+            'body': reminder.body
+        })
 
-        context = { 'form' : form }
+        context = {'form': form}
 
         return render(request, self.template_name, context)
 
-
     def post(self, request, *args, **kwargs):
         '''Post request for reminder edit form.'''
-        #Get id from url
+        # Get id from url
         rem_id = kwargs['rem_id']
         try:
             reminder = Reminder.objects.get(id=rem_id)
@@ -111,15 +114,17 @@ class ReminderEditView(LoginRequiredMixin, View):
 
         # Warn user if reminder does not exist anymore.
         if reminder is None:
-            messages.add_message(request, messages.INFO,'This reminder does not exist anymore.')
+            messages.add_message(request, messages.INFO,
+                                 'This reminder does not exist anymore.')
             return dashboard()
 
-        #Redirect user if trying to edit someone else's reminder.
+        # Redirect user if trying to edit someone else's reminder.
         if reminder.sender_id != request.user.id:
             return HttpResponseRedirect(reverse('forbidden'))
 
         if reminder.is_sent:
-            messages.add_message(request, messages.INFO, 'This reminder has already been sent. It can not be edited.')
+            messages.add_message(
+                request, messages.INFO, 'This reminder has already been sent. It can not be edited.')
             return dashboard()
 
         form = self.form_class(request.POST)
@@ -127,15 +132,16 @@ class ReminderEditView(LoginRequiredMixin, View):
         # If infos have changed, update the reminder object
         if form.is_valid():
             if form.has_changed():
-                reminder.recipient_email=form.cleaned_data['recipient_email']
-                reminder.subject=form.cleaned_data['subject']
-                reminder.body=form.cleaned_data['body']
-                reminder.day_to_send=form.cleaned_data['day_to_send']
-                reminder.time_to_send=form.cleaned_data['time_to_send']
+                reminder.recipient_email = form.cleaned_data['recipient_email']
+                reminder.subject = form.cleaned_data['subject']
+                reminder.body = form.cleaned_data['body']
+                reminder.day_to_send = form.cleaned_data['day_to_send']
+                reminder.time_to_send = form.cleaned_data['time_to_send']
                 reminder.save()
-            messages.add_message(request, messages.INFO, 'Reminder edited successfully.')
+            messages.add_message(request, messages.INFO,
+                                 'Reminder edited successfully.')
             return dashboard()
-        context = { 'form' : form }
+        context = {'form': form}
         return render(request, self.template_name, context)
 
 
@@ -145,7 +151,7 @@ class ReminderDeleteView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
 
-        #Get id from url
+        # Get id from url
         rem_id = kwargs['rem_id']
         try:
             reminder = Reminder.objects.get(id=rem_id)
@@ -154,18 +160,21 @@ class ReminderDeleteView(LoginRequiredMixin, View):
 
         # Warn user if reminder does not exist anymore.
         if reminder is None:
-            messages.add_message(request, messages.INFO,'This reminder does not exist anymore.')
+            messages.add_message(request, messages.INFO,
+                                 'This reminder does not exist anymore.')
             return dashboard()
 
-        #Redirect user if trying to delete someone else's reminder.
+        # Redirect user if trying to delete someone else's reminder.
         if reminder.sender_id != request.user.id:
             return HttpResponseRedirect(reverse('forbidden'))
 
         if reminder.is_sent:
-            messages.add_message(request, messages.INFO, 'This reminder has already been sent. It can not be deleted.')
+            messages.add_message(
+                request, messages.INFO, 'This reminder has already been sent. It can not be deleted.')
             return dashboard()
 
-        #No problems, we delete the reminder and notify the user.
+        # No problems, we delete the reminder and notify the user.
             reminder.delete()
-            messages.add_message(request, messages.INFO,'Reminder Deleted '+str(kwargs['rem_id']))
+            messages.add_message(request, messages.INFO,
+                                 'Reminder Deleted ' + str(kwargs['rem_id']))
         return dashboard()

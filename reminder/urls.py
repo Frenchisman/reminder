@@ -1,11 +1,14 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
-from reminder.views.registration import EmailRegistrationView
+from reminder.views.registration import (
+    EmailRegistrationView, ResendActivationEmailView,
+    ResentActivationEmailView)
 from reminder.views.home import HomeView, LogoutView, ForbiddenView
 from reminder.views.authenticated import (DashboardView, ReminderCreationView,
                                           ReminderDeleteView, ReminderEditView)
 from django.contrib.auth import views as auth_views
+from django.views.generic.base import TemplateView
 from reminder.forms.login import LoginForm
 
 
@@ -29,6 +32,11 @@ urlpatterns = [
          'authentication_form': LoginForm},
         name='auth_login',
         ),
+    url(r'^accounts/activate/resend/$',
+        ResendActivationEmailView.as_view(), name='registration_resend'),
+    url(r'^accounts/activate/resent/$',
+        ResentActivationEmailView.as_view(),
+        name='registration_resent'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     # @TODO https://docs.djangoproject.com/fr/1.10/topics/auth/default/#all-authentication-views
     # Create Templates for these.

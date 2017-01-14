@@ -1,11 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	activation failed :(
-	Key form :
-</body>
-</html>
+{% extends "reminder/base.html" %}
+{% load static %}
+{% load bootstrap3 %}
+{% block content %}
+	{% bootstrap_alert "Registration Successful." alert_type='success' %}
+	<div id="registration-complete" class="row">
+		<div class="col-xs-12">
+		<p>
+			We are sorry, but we could not activate your account using this link. Maybe it has expired, or the account does not exist ?
+		</p>
+		<p>
+			Please go to this page to get a new activation link :
+		</p>
+		<p>
+			<a href="{% url 'registration_resend' %}">Resend Activation Link</a>
+		</p>
+		<p>
+			If you do not have an account yet, you can go to this page to register :
+		</p>
+		<p>
+			<a href="{% url 'registration_register' %}">Register</a>
+		</p>
+		</div>
+	</div>
+{% endblock content %}

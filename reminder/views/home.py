@@ -44,8 +44,13 @@ class HomeView(View):
 class LogoutView(View):
 
     def get(self, request):
+        connected = False
+        if not request.user.is_anonymous:
+            connected = True
         logout(request)
-        messages.add_message(request, messages.INFO, "Disconnect Successful")
+        if connected:
+            messages.add_message(request, messages.INFO,
+                                 "Successfully Logged Off.")
         return HttpResponseRedirect(reverse('home'))
 
 

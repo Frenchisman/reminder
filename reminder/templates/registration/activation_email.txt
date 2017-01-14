@@ -1,5 +1,9 @@
-Here is your activation key :
+Thank you for registering an account at {% if request.is_secure %}https://{% else %}http://{% endif %}{{site}}
 
-{#{% if request.is_secure %}https://{% else %}#}
-{# @TODO find url #}
-http://{{ request.get_host }}/activate/{{activation_key}}
+The account was registered using the following email address : {{user}}
+
+Here is your activation link. Please click on it or copy and paste it in your browser's address bar. This link will be valid for {{expiration_days}} days.
+
+{% if request.is_secure %}https://{% else %}http://{% endif %}{{site}}{% url 'registration_activate' activation_key %} 
+{# {{request.scheme}}://{% url 'registration_activate' activation_key %} #}
+{# {{request.build_absolute_uri('registration_activate')}}{{activation_key}} #}
