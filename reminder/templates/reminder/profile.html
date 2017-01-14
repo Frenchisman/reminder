@@ -1,0 +1,22 @@
+{% extends "reminder/base.html" %}
+
+{% block content %}
+	<div id="user-profile" class="row">
+		<div class="col-xs-12">
+			<p>Your profile information will be sent along with your reminders. Take care the recipients will be able to recognize you with this information.</p>
+			<p><strong>Email : </strong>{{username}}</p>
+			<p><strong>First Name :</strong> {{first_name}}</p>
+			<p><strong>Last Name :</strong> {{last_name}}</p>
+			<div class="btn-group-vertical visible-xs" role="group">
+				<a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit Profile</a>
+				<a href="{% url 'auth_password_change' %}" class="btn btn-warning">Change Password</a>
+				<a href="#" class="btn btn-danger">Delete Account</a>
+			</div>
+			<div class="btn-group hidden-xs" role="group">
+				<a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit Profile</a>
+				<a href="{% url 'auth_password_change' %}" class="btn btn-warning">Change Password</a>
+				<a href="{% url 'profile_delete' %}" class="btn btn-danger">Delete Account</a>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

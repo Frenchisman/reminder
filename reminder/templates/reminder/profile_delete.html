@@ -3,16 +3,16 @@
 {% load static %}
 
 {% block content %}	
-<div id="password-change" class="row">
+<div id="profile-delete" class="row">
 	<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 col-xl-2 col-xl-offset-5">
 		<form action="." method="post">
 			{% csrf_token %}
+			<div class="text-center">
 			{% bootstrap_form form %}
 			{% buttons %}
-			<div class="text-center">
 				<div class="btn-group" role="group">
-					<button type="submit" class="btn btn-primary">
-						Change Password
+					<button type="submit" class="btn btn-danger">
+						Delete Account
 					</button>
 					<a href="{% url 'profile' %}" class="btn btn-warning">Cancel</a>
 				</div>

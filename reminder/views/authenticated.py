@@ -1,12 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout
 from django.views import View
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import render
 from reminder.forms.reminder import ReminderForm
+from reminder.forms.account_forms import ProfileEditForm, ProfileDeleteForm
 from reminder.models import Reminder
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 def dashboard():
@@ -178,3 +181,88 @@ class ReminderDeleteView(LoginRequiredMixin, View):
             messages.add_message(request, messages.INFO,
                                  'Reminder Deleted ' + str(kwargs['rem_id']))
         return dashboard()
+
+
+class ProfileDisplayView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('auth_login')
+    template_name = "reminder/profile.html"
+
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(id=request.user.id)
+        context = {
+            'username': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+        }
+        return render(request, self.template_name, context)
+
+
+class ProfileEditView(LoginRequiredMixin, View):
+    ''' Display the view for profile edition'''
+    login_url = reverse_lazy('auth_login')
+    template_name = "reminder/profile_edit.html"
+    form_class = ProfileEditForm
+
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(id=request.user.id)
+
+        form = self.form_class(
+            initial={
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name
+            }
+        )
+
+        context = {'form': form}
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        ''' Update user object if form has valid values'''
+        user = User.objects.get(id=request.user.id)
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            # Update user whan form is valid.
+            user.username = form.cleaned_data['email']
+            user.email = form.cleaned_data['email']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.save()
+            messages.add_message(request, messages.INFO,
+                                 'Profile Information Updated.')
+            return HttpResponseRedirect(reverse('profile'))
+
+        # When form is not valid return it for completion
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+
+class ProfileDeleteView(LoginRequiredMixin, View):
+    template_name = 'reminder/profile_delete.html'
+    login_url = reverse_lazy('auth_login')
+    form_class = ProfileDeleteForm
+
+    def get(self, request, *args, **kwargs):
+        messages.add_message(request, messages.WARNING,
+                             'This action can not be undone, are you sure ?')
+        form = self.form_class()
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        user = User.objects.get(id=request.user.id)
+        form = self.form_class(request.POST)
+
+        # Check if user has checked the checkbox.
+        if form.is_valid():
+            if form.cleaned_data['check']:
+                logout(request)
+                user.delete()
+                messages.add_message(
+                    request, messages.SUCCESS, 'Account Deleted.')
+            return HttpResponseRedirect(reverse('home'))
+
+            context = {'form': form}
+        return render(request, self.template_name, context)
