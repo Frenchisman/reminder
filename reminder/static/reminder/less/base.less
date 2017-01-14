@@ -1,5 +1,124 @@
-@red: #F00;
+@import (less) "includes.less";
 
-body{
-	
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  height: 100%;
+
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: @footer-height;
+  min-height: calc(100% - @footer-height)
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: @color_primary_dark;
+}
+
+/* Material Icons
+------------------------------------------*/
+.material-icons,
+.icon-text{
+	vertical-align: middle;
+}
+.material-icons{
+	padding-right: 5px;
+}
+
+/* Buttons
+------------------------------------------ */
+
+.btn-primary{
+	background: @color_primary;
+	border-color: @color_primary_dark;
+	font-weight: bold;
+	transition: @transition_default;
+}
+.btn-primary:hover{
+	color: @color_primary;
+	background: @color_text_icons;
+	font-weight: bold;
+	transition: @transition_default
+}
+
+/* Navbar 
+------------------------------------------ */
+.navbar-default{
+	background: @color_primary;
+}
+
+.navbar-default a.navbar-brand,
+.navbar-default .navbar-nav>li>a{
+	color: @color_text_icons;
+	transition: @transition_default;
+}
+
+.navbar-default a.navbar-brand:hover,
+.navbar-default .navbar-nav>li>a:hover{
+	color: @color_accent;
+	transition: @transition_default;
+}
+
+.navbar-default .navbar-nav>li.active a{
+	background: @color_primary_light;
+	color: @color_text_primary;
+}
+
+.navbar-default{
+    box-shadow: 0 5px 5px #BDBDBD;
+    border: none;
+}
+
+.navbar-default .navbar-toggle:focus, 
+.navbar-default .navbar-toggle:hover{
+	background: @color_accent;
+}
+
+.navbar-default .navbar-toggle .icon-bar{
+	background: @color_text_icons;
+}
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container-fluid {
+  padding: 70px 15px 0;
+}
+.container-fluid .text-muted {
+  margin: 20px 0;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+	body > .container{
+		margin-top: 15px;
+	}
+}
+
+
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+
 }

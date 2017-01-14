@@ -37,7 +37,8 @@ class UserRegistrationForm(RegistrationFormUniqueEmail):
     )
     email = forms.EmailField(
         label="Confirm your email",
-        required=True
+        required=True,
+        help_text='Enter your email address a second time, for confirmation.'
     )
 
     class Meta(RegistrationFormUniqueEmail.Meta):

@@ -7,6 +7,7 @@ from django.contrib import messages
 
 from reminder.forms.login import LoginForm
 
+
 class HomeView(View):
 
     template_name = 'reminder/home.html'
@@ -16,23 +17,19 @@ class HomeView(View):
         context = {}
 
         if not request.user.is_authenticated:
-            form = self.form_class()
+            form = self.form_class(initial={'username': '', 'password': ''})
             context = {
                 'form': form
             }
 
-        if kwargs:
-            for kwarg in kwargs:
-                context[kwarg] = kwargs[kwarg]
-
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        #Get post infos
-        form =self.form_class(request.POST)
+        # Get post infos
+        form = self.form_class(request, request.POST)
 
         if form.is_valid():
-            username = form.cleaned_data["email"]
+            username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
             user = authenticate(username=username, password=password)
             if user is not None:
@@ -41,7 +38,7 @@ class HomeView(View):
                 return HttpResponseRedirect(reverse('dashboard'))
 
         # Form not valid.
-        return render(request, self.template_name, {'form':form})
+        return render(request, self.template_name, {'form': form})
 
 
 class LogoutView(View):
@@ -58,4 +55,3 @@ class ForbiddenView(View):
 
     def get(self, request):
         return render(request, self.template_name)
-

@@ -6,17 +6,19 @@ from registration.forms import RegistrationForm
 from registration import signals
 
 # @IMPORTANT Comment dat shit
+
+
 class EmailRegistrationView(RegistrationView):
 
     form_class = UserRegistrationForm
 
     def register(self, form):
         data = {
-            'username' : form.fields['email'],
-            'email' : form.fields['email'],
+            'username': form.fields['email'],
+            'email': form.fields['email'],
             'first_name'
-            'password1' : form.fields['password1'],
-            'password2' : form.fields['password2']
+            'password1': form.fields['password1'],
+            'password2': form.fields['password2']
         }
 
         new_form = RegistrationForm(data)
