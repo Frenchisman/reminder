@@ -1,7 +1,6 @@
 from django import forms
 from registration.forms import RegistrationFormUniqueEmail
 from django.contrib.auth import password_validation
-from django.contrib.auth.models import User
 
 
 class UserRegistrationForm(RegistrationFormUniqueEmail):

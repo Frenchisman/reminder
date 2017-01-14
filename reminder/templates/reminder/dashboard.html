@@ -4,10 +4,17 @@
 	<p>Welcome to the Dashboard ! It's all fun and games !</p>
 	<a href="{% url 'rem_create' %}">New Reminder</a>
 	<hr/>
-	{% for reminder in reminder_list  %}
+	{% for reminder in current  %}
 		<p>{{reminder.subject}} <a href="{% url 'edit_reminder' reminder.id %}">Edit</a> <a href="#" data-href="{% url 'delete_reminder' reminder.id %}" data-toggle="modal" data-target="#confirm-delete">Delete</a></p>
 		<hr/>		
 	{% endfor %}
+
+    <hr/>
+    <h2>old reminders</h2>
+    {% for reminder in sent %}
+        <p>{{reminder.subject}}</p>
+        <hr/>
+    {% endfor %}
 
 	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

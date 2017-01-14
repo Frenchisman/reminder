@@ -25,8 +25,19 @@ class DashboardView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         context = {}
-        reminder_list = Reminder.objects.filter(sender_id=request.user.id)
-        context['reminder_list'] = reminder_list
+
+        current = Reminder.objects.filter(
+            sender_id=request.user.id).filter(
+            is_sent=0).order_by(
+            'day_to_send', 'time_to_send')
+
+        sent = Reminder.objects.filter(
+            sender_id=request.user.id).filter(
+            is_sent=1).order_by(
+            '-day_to_send', '-time_to_send')[:5]
+
+        context['current'] = current
+        context['sent'] = sent
         return render(request, self.template_name, context)
 
 
