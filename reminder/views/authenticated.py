@@ -27,7 +27,9 @@ class DashboardView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         context = {}
         today = date.today()
-        left_today = 5 - Reminder.objects.filter(day_to_send=today).count()
+        left_today = 5 - \
+            Reminder.objects.filter(sender_id=request.user.id).filter(
+                day_to_send=today).count()
         current = Reminder.objects.filter(
             sender_id=request.user.id).filter(
             is_sent=0).order_by(
@@ -62,7 +64,7 @@ class ReminderCreationView(LoginRequiredMixin, View):
 
         if form.is_valid():
             # Check if user an create a reminder for the specified date
-            if (Reminder.objects.filter(
+            if (Reminder.objects.filter(sender_id=request.user.id).filter(
                 day_to_send=form.cleaned_data['day_to_send']
             ).count() < 5):
 
@@ -168,7 +170,7 @@ class ReminderEditView(LoginRequiredMixin, View):
                 # When editing a reminder with the same date it's ok !
                 is_same_day = (reminder.day_to_send ==
                                form.cleaned_data['day_to_send'])
-                if (Reminder.objects.filter(
+                if (Reminder.objects.filter(sender_id=request.user.id).filter(
                     day_to_send=form.cleaned_data['day_to_send']
                 ).count() < 5 or is_same_day):
 
