@@ -9,7 +9,7 @@
     <div id="dashboard" class="row">
         <div class="new-reminder">
             <a href="{% url 'rem_create' %}" class="btn btn-primary new-reminder"><i class="material-icons">add_circle</i><span class="icon-text"> New Reminder</span></a>
-            <p>You can send {{left_today}} more reminders today.</p>
+            <p>You can send {% if left_today == 0 %}no{% else %}{{left_today}}{% endif %} more reminders today.</p>
         </div>
 
         <hr/>
@@ -26,9 +26,9 @@
                         <div class="reminder-container col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                             <div class="reminder">                            
                                {# Reminder Infos #}
-                                <p><strong>To : </strong> {{reminder.recipient_email}}</p>
-                                <p><strong>Date : </strong>{{reminder.day_to_send}}, {{reminder.time_to_send}}</p>
-                                <p><strong>Title :</strong> {{reminder.subject}}</p> 
+                                <p><strong class="reminder-label">To : </strong> {{reminder.recipient_email}}</p>
+                                <p><strong class="reminder-label">Date : </strong>{{reminder.day_to_send}}, {{reminder.time_to_send}}</p>
+                                <p><strong class="reminder-label">Title :</strong> {{reminder.subject}}</p> 
                                 {# Button Row #}
                                 <div class="btn-group btn-group-justified" role="group">                                
                                 <a href="{% url 'edit_reminder' reminder.id %}"class="btn btn-warning"><i class="material-icons">edit</i><span class="icon-text" >Edit</span></a>
@@ -43,9 +43,9 @@
                         <div class="reminder-container col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                             <div class="reminder">                            
                                {# Reminder Infos #}
-                                <p><strong>To : </strong> {{reminder.recipient_email}}</p>
-                                <p><strong>Date : </strong>{{reminder.day_to_send}}, {{reminder.time_to_send}}</p>
-                                <p><strong>Title :</strong> {{reminder.subject}}</p>                                 
+                                <p><strong class="reminder-label">To : </strong> {{reminder.recipient_email}}</p>
+                                <p><strong class="reminder-label">Date : </strong>{{reminder.day_to_send}}, {{reminder.time_to_send}}</p>
+                                <p><strong class="reminder-label">Title :</strong> {{reminder.subject}}</p>                                 
                             </div>
                         </div>      
                     {% endfor %}

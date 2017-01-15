@@ -27,7 +27,7 @@ class DashboardView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         context = {}
         today = date.today()
-        left_today = Reminder.objects.filter(day_to_send=today).count()
+        left_today = 5 - Reminder.objects.filter(day_to_send=today).count()
         current = Reminder.objects.filter(
             sender_id=request.user.id).filter(
             is_sent=0).order_by(
@@ -61,19 +61,30 @@ class ReminderCreationView(LoginRequiredMixin, View):
         form = self.form_class(request.POST)
 
         if form.is_valid():
-            r = Reminder(
-                sender=request.user,
-                sender_email=request.user.email,
-                recipient_email=form.cleaned_data['recipient_email'],
-                subject=form.cleaned_data['subject'],
-                body=form.cleaned_data['body'],
-                day_to_send=form.cleaned_data['day_to_send'],
-                time_to_send=form.cleaned_data['time_to_send']
-            )
-            r.save()
-            messages.add_message(request, messages.SUCCESS,
-                                 'Reminder Created.')
-            return dashboard()
+            # Check if user an create a reminder for the specified date
+            if (Reminder.objects.filter(
+                day_to_send=form.cleaned_data['day_to_send']
+            ).count() < 5):
+
+                r = Reminder(
+                    sender=request.user,
+                    sender_email=request.user.email,
+                    recipient_email=form.cleaned_data['recipient_email'],
+                    subject=form.cleaned_data['subject'],
+                    body=form.cleaned_data['body'],
+                    day_to_send=form.cleaned_data['day_to_send'],
+                    time_to_send=form.cleaned_data['time_to_send']
+                )
+                r.save()
+                messages.add_message(request, messages.SUCCESS,
+                                     'Reminder Created.')
+                return dashboard()
+            else:
+                # If all reminders are used, we need to notify the user.
+                form.add_error(
+                    'day_to_send',
+                    "You have already used all your reminders for " +
+                    form.cleaned_data['day_to_send'].strftime('%B %d, %Y'))
 
         return render(request, self.template_name, {'form': form})
 
@@ -143,7 +154,9 @@ class ReminderEditView(LoginRequiredMixin, View):
 
         if reminder.is_sent:
             messages.add_message(
-                request, messages.INFO, 'This reminder has already been sent. It can not be edited.')
+                request,
+                messages.INFO,
+                'This reminder has already been sent. It can not be edited.')
             return dashboard()
 
         form = self.form_class(request.POST)
@@ -151,15 +164,37 @@ class ReminderEditView(LoginRequiredMixin, View):
         # If infos have changed, update the reminder object
         if form.is_valid():
             if form.has_changed():
-                reminder.recipient_email = form.cleaned_data['recipient_email']
-                reminder.subject = form.cleaned_data['subject']
-                reminder.body = form.cleaned_data['body']
-                reminder.day_to_send = form.cleaned_data['day_to_send']
-                reminder.time_to_send = form.cleaned_data['time_to_send']
-                reminder.save()
-            messages.add_message(request, messages.SUCCESS,
-                                 'Reminder edited.')
-            return dashboard()
+                # We need to recheck the date
+                # When editing a reminder with the same date it's ok !
+                is_same_day = (reminder.day_to_send ==
+                               form.cleaned_data['day_to_send'])
+                if (Reminder.objects.filter(
+                    day_to_send=form.cleaned_data['day_to_send']
+                ).count() < 5 or is_same_day):
+
+                    reminder.recipient_email = form.cleaned_data[
+                        'recipient_email']
+                    reminder.subject = form.cleaned_data['subject']
+                    reminder.body = form.cleaned_data['body']
+                    reminder.day_to_send = form.cleaned_data['day_to_send']
+                    reminder.time_to_send = form.cleaned_data['time_to_send']
+                    reminder.save()
+                    messages.add_message(request, messages.SUCCESS,
+                                         'Reminder edited.')
+                    return dashboard()
+                else:
+                    # If all reminders are used, we need to notify the user.
+                    form.add_error(
+                        'day_to_send',
+                        "You have already used all your reminders for " +
+                        form.cleaned_data['day_to_send'].strftime('%B %d, %Y'))
+            else:
+                # If form has not changed, do nothing
+                # notify the user all is ok
+                messages.add_message(request, messages.SUCCESS,
+                                     'Reminder edited.')
+                return dashboard()
+        # If we have errors, resend the form
         context = {'form': form}
         return render(request, self.template_name, context)
 
