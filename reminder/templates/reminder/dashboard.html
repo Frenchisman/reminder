@@ -25,6 +25,7 @@
 
             <div class="tab-content">
                 <div class="tab-pane active" id="current">
+
                     {% for reminder in current  %}
                         <div class="reminder-container col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="reminder">                            
@@ -40,6 +41,7 @@
                             </div>
                         </div>      
                     {% endfor %}
+
                 </div>
                 <div class="tab-pane" id="sent">                    
                     {% for reminder in sent %}
@@ -57,17 +59,19 @@
         </div>
 
         <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-sm">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        ...
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-danger btn-ok">Delete</a>
+                    <div class="text-center">
+                        <div class="modal-header">
+                            <p>Please Confirm Deletion</p>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="text-center">
+                                <div class="btn-group " role="group">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="material-icons">cancel</i><span class="icon-text">Cancel</span></button>
+                                <a class="btn btn-danger btn-ok"><i class="material-icons">delete_forever</i><span class="icon-text">Delete</span></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,7 +80,9 @@
 {% endblock content %}
 
 {% block extrascript %}
-	<script type="text/javascript">$('#confirm-delete').on('show.bs.modal', function(e) {
-    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-});</script>
+	<script type="text/javascript">
+    $('#confirm-delete').on('show.bs.modal', function(e) {
+        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+    });
+    </script>
 {% endblock extrascript %}

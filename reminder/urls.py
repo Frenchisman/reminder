@@ -10,7 +10,6 @@ from reminder.views.authenticated import (DashboardView, ReminderCreationView,
                                           ProfileDisplayView, ProfileEditView,
                                           ProfileDeleteView)
 from django.contrib.auth import views as auth_views
-from django.views.generic.base import TemplateView
 from reminder.forms.login import LoginForm
 
 
@@ -24,7 +23,7 @@ urlpatterns = [
         ProfileDeleteView.as_view(),
         name='profile_delete'),
     url(r'^create/$', ReminderCreationView.as_view(), name='rem_create'),
-    url(r'^delete/(?P<rem_id>[0-9]+)/$',
+    url(r'^delete/reminder/(?P<rem_id>[0-9]+)/$',
         ReminderDeleteView.as_view(), name='delete_reminder'),
     url(r'^edit/(?P<rem_id>[0-9]+)/$',
         ReminderEditView.as_view(), name='edit_reminder'),

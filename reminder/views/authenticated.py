@@ -209,6 +209,7 @@ class ReminderDeleteView(LoginRequiredMixin, View):
 
         # Get id from url
         rem_id = kwargs['rem_id']
+        print('WE EHRE BOIS')
         try:
             reminder = Reminder.objects.get(id=rem_id)
         except Reminder.DoesNotExist:
@@ -230,9 +231,9 @@ class ReminderDeleteView(LoginRequiredMixin, View):
             return dashboard()
 
         # No problems, we delete the reminder and notify the user.
-            reminder.delete()
-            messages.add_message(request, messages.SUCCESS,
-                                 'Reminder Deleted.')
+        reminder.delete()
+        messages.add_message(request, messages.SUCCESS,
+                             'Reminder Deleted.')
         return dashboard()
 
 
