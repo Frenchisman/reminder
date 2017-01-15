@@ -10,6 +10,7 @@ from reminder.models import Reminder
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
+from datetime import date
 
 
 def dashboard():
@@ -25,7 +26,8 @@ class DashboardView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         context = {}
-
+        today = date.today()
+        left_today = Reminder.objects.filter(day_to_send=today).count()
         current = Reminder.objects.filter(
             sender_id=request.user.id).filter(
             is_sent=0).order_by(
@@ -38,6 +40,7 @@ class DashboardView(LoginRequiredMixin, View):
 
         context['current'] = current
         context['sent'] = sent
+        context['left_today'] = left_today
         return render(request, self.template_name, context)
 
 
@@ -68,8 +71,8 @@ class ReminderCreationView(LoginRequiredMixin, View):
                 time_to_send=form.cleaned_data['time_to_send']
             )
             r.save()
-            messages.add_message(request, messages.INFO,
-                                 'Reminder Created Successfully.')
+            messages.add_message(request, messages.SUCCESS,
+                                 'Reminder Created.')
             return dashboard()
 
         return render(request, self.template_name, {'form': form})
@@ -102,7 +105,9 @@ class ReminderEditView(LoginRequiredMixin, View):
 
         if reminder.is_sent:
             messages.add_message(
-                request, messages.INFO, 'This reminder has already been sent. It can not be edited.')
+                request,
+                messages.INFO,
+                'This reminder has already been sent. It can not be edited.')
             return dashboard()
 
         form = self.form_class(initial={
@@ -152,8 +157,8 @@ class ReminderEditView(LoginRequiredMixin, View):
                 reminder.day_to_send = form.cleaned_data['day_to_send']
                 reminder.time_to_send = form.cleaned_data['time_to_send']
                 reminder.save()
-            messages.add_message(request, messages.INFO,
-                                 'Reminder edited successfully.')
+            messages.add_message(request, messages.SUCCESS,
+                                 'Reminder edited.')
             return dashboard()
         context = {'form': form}
         return render(request, self.template_name, context)
@@ -189,8 +194,8 @@ class ReminderDeleteView(LoginRequiredMixin, View):
 
         # No problems, we delete the reminder and notify the user.
             reminder.delete()
-            messages.add_message(request, messages.INFO,
-                                 'Reminder Deleted ' + str(kwargs['rem_id']))
+            messages.add_message(request, messages.SUCCESS,
+                                 'Reminder Deleted.')
         return dashboard()
 
 

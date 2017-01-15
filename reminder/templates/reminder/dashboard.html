@@ -1,37 +1,75 @@
 {% extends "reminder/base.html" %}
+{% load static %}
+{% block extrastyle %}
+    <link rel="stylesheet/less" href="{% static "reminder/less/dashboard.less" %}" type="text/css">
+{% endblock extrastyle %}
+
 {% block content %}
 	
-	<p>Welcome to the Dashboard ! It's all fun and games !</p>
-	<a href="{% url 'rem_create' %}">New Reminder</a>
-	<hr/>
-	{% for reminder in current  %}
-		<p>{{reminder.subject}} <a href="{% url 'edit_reminder' reminder.id %}">Edit</a> <a href="#" data-href="{% url 'delete_reminder' reminder.id %}" data-toggle="modal" data-target="#confirm-delete">Delete</a></p>
-		<hr/>		
-	{% endfor %}
+    <div id="dashboard" class="row">
+        <div class="new-reminder">
+            <a href="{% url 'rem_create' %}" class="btn btn-primary new-reminder"><i class="material-icons">add_circle</i><span class="icon-text"> New Reminder</span></a>
+            <p>You can send {{left_today}} more reminders today.</p>
+        </div>
 
-    <hr/>
-    <h2>old reminders</h2>
-    {% for reminder in sent %}
-        <p>{{reminder.subject}}</p>
         <hr/>
-    {% endfor %}
 
-	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                ...
+        <div id="tabbed-panels" class="container">
+            <ul class="nav nav-tabs reminder-nav">
+                <li class="active"><a href="#current" data-toggle="tab">Current</a></li>
+                <li><a href="#sent" data-toggle="tab">Sent</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="current">
+                    {% for reminder in current  %}
+                        <div class="reminder-container col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <div class="reminder">                            
+                               {# Reminder Infos #}
+                                <p><strong>To : </strong> {{reminder.recipient_email}}</p>
+                                <p><strong>Date : </strong>{{reminder.day_to_send}}, {{reminder.time_to_send}}</p>
+                                <p><strong>Title :</strong> {{reminder.subject}}</p> 
+                                {# Button Row #}
+                                <div class="btn-group btn-group-justified" role="group">                                
+                                <a href="{% url 'edit_reminder' reminder.id %}"class="btn btn-warning"><i class="material-icons">edit</i><span class="icon-text" >Edit</span></a>
+                                <a href="#" class="btn btn-danger" data-href="{% url 'delete_reminder' reminder.id %}" data-toggle="modal" data-target="#confirm-delete"><i class="material-icons">delete_forever</i><span class="icon-text">Delete</span></a>
+                                </div>
+                            </div>
+                        </div>      
+                    {% endfor %}
+                </div>
+                <div class="tab-pane" id="sent">                    
+                    {% for reminder in sent %}
+                        <div class="reminder-container col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <div class="reminder">                            
+                               {# Reminder Infos #}
+                                <p><strong>To : </strong> {{reminder.recipient_email}}</p>
+                                <p><strong>Date : </strong>{{reminder.day_to_send}}, {{reminder.time_to_send}}</p>
+                                <p><strong>Title :</strong> {{reminder.subject}}</p>                                 
+                            </div>
+                        </div>      
+                    {% endfor %}
+                </div>
             </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok">Delete</a>
+        </div>
+
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        ...
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-danger btn-ok">Delete</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock content %}
 
 {% block extrascript %}

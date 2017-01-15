@@ -21,6 +21,10 @@ body {
   background-color: @color_primary_dark;
 }
 
+a{
+	color: @color_primary;
+}
+
 /* Material Icons
 ------------------------------------------*/
 .material-icons,
@@ -40,7 +44,9 @@ body {
 	font-weight: bold;
 	transition: @transition_default;
 }
-.btn-primary:hover{
+.btn-primary:hover,
+.btn-primary:active:hover,
+.btn-primary:active{
 	color: @color_primary;
 	background: @color_text_icons;
 	font-weight: bold;
@@ -54,7 +60,9 @@ body {
 	transition: @transition_default;
 }
 
-.btn-warning:hover{
+.btn-warning:hover,
+.btn-warning:active:hover,
+.btn-warning:active{
 	color: @color_accent;
 	background: @color_text_icons;
 	transition: @transition_default;
@@ -66,11 +74,17 @@ body {
 
 }
 
-.btn-danger:hover{
+.btn-danger:hover,
+.btn-danger:active:hover,
+.btn-danger:active{
 	color: #c9302c;
 	background: @color_text_icons;
 	transition: @transition_default;
 
+}
+
+.btn-success{
+	font-weight: bold;
 }
 /* Navbar 
 ------------------------------------------ */
@@ -113,10 +127,7 @@ body {
 /* Not required for template or sticky footer method. */
 
 body > .container-fluid {
-  padding: 70px 15px 0;
-}
-.container-fluid .text-muted {
-  margin: 20px 0;
+  padding-top: 70px;
 }
 
 .footer > .container {
