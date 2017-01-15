@@ -13,7 +13,7 @@
 
 {% block content %}
 	<div id="login-form" class="row">
-		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 col-xl-2 col-xl-offset-5">
+		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
 			{% if not user.is_authenticated %}
 			<form action="." method="post">
 			{% csrf_token %}
@@ -30,16 +30,29 @@
 			</form>
 		</div>
 	</div>
-	{% else %}
-	<div id="getting-started" class="row">
-		<div class="col-xs-12">
-			<h1>Getting Started</h1>
+	{% endif %}
+	<div id="home-img" class="row">
+		<div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">		
+			<img class="img-responsive home-img" src="{% static "reminder/img/mail_big.png" %}" alt="logo">			
 		</div>
 	</div>
-	{% endif %}
 	<div id="about" class="row">
-		<div class="col-xs-12 col-md-8">		
-				<img class="img-responsive home-img" src="{% static "reminder/img/mail_big.png" %}" alt="logo">			
+		<div class="container">
+			<h1 class="text-center">Welcome to Visual Reminder</h1>
+			<hr>
+			<p>Have you ever thought about doing something and then forgot about it five minutes later ?</p>
+			<p> Or maybe you often hear "Send me an email !" Sadly, we often forget to send it or don't remember what the contents were.</p>
+			<p>Fear not, Visual Reminder is here.</p>
+			<p>This lightweight application lets you program a reminder, and sends it the the email address of your choice at the time you choose.</p>
+			<p>Visual Reminder is usable on mobile as well as on desktop, making it great for any situation. Just whip up your phone and program that reminder.</p>
+		</div>
+	</div>
+	<div id="faq" class="row">
+		<div class="container">
+			<p><strong>Q:
+				
+			</strong></p>
+			<p><strong>A:</strong></p>
 		</div>
 	</div>
 

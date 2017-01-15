@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Form
+from django.forms import ModelForm
 from reminder.models import Reminder
 from django.forms.widgets import DateInput, TimeInput
 from json import JSONEncoder
@@ -57,5 +57,6 @@ class ReminderForm(ModelForm):
         day = cleaned_data.get('day_to_send')
         ti = cleaned_data.get('time_to_send')
 
-        if day == datetime.date.today() and ti < datetime.datetime.now().time():
+        if (day == datetime.date.today() and
+                ti < datetime.datetime.now().time()):
             raise forms.ValidationError('The time must be after now.')

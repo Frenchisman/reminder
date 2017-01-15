@@ -4,28 +4,33 @@
 
 {% block extrahead %}
 	<link rel="stylesheet" href="{% static "datebox/css/jtsage-datebox.min.css" %}">
+	{# @TODO Style Datebox #}
 {% endblock extrahead %}
 
 {% block content %}
-	
-	<form action="." method="post" class="form">
-	{% csrf_token %}
-		{% bootstrap_form form %}
-		{% buttons %}
-		<div class="btn-group" role="group">			
-			<button type="submit" class="btn btn-primary">
-				{% bootstrap_icon star %}
-				{% block reminder_button_text %}
-					Create
-				{% endblock reminder_button_text %}
-			</button>
-			<a href="{% url 'dashboard' %}" class="btn btn-warning">
-				Cancel
-			</a>
-		</div>
+	<div id="reminder-creation" class="row">
+		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+			<form action="." method="post" class="form">
+			{% csrf_token %}
+				{% bootstrap_form form %}
+				{% buttons %}
+				<div class="text-center">					
+					<div class="btn-group" role="group">			
+						<button type="submit" class="btn btn-primary">
+							{% block reminder_button_text %}
+								<i class="material-icons">add_circle</i><span class="icon-text">Create</span>
+							{% endblock reminder_button_text %}
+						</button>
+						<a href="{% url 'dashboard' %}" class="btn btn-warning">
+							<i class="material-icons">cancel</i><span class="icon-text">Cancel</span>
+						</a>
+					</div>
+				</div>
 
-		{% endbuttons %}
-	</form>
+				{% endbuttons %}
+			</form>
+		</div>
+	</div>
 {% endblock content %}
 
 {% block extrascript %}

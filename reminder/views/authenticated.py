@@ -36,7 +36,7 @@ class DashboardView(LoginRequiredMixin, View):
         sent = Reminder.objects.filter(
             sender_id=request.user.id).filter(
             is_sent=1).order_by(
-            '-day_to_send', '-time_to_send')[:5]
+            '-day_to_send', '-time_to_send')[:10]
 
         context['current'] = current
         context['sent'] = sent
