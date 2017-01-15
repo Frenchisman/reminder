@@ -16,3 +16,11 @@ class Reminder(models.Model):
     day_to_send = models.DateField(blank=False, null=False)
     time_to_send = models.TimeField(blank=False, null=False)
     is_sent = models.BooleanField(default=False)
+
+
+class Question(models.Model):
+    question = models.CharField(max_length=300)
+    answer = models.TextField(max_length=1000)
+    order = models.IntegerField(null=False)
+
+    ordering = ['order']

@@ -120,7 +120,7 @@ AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 # @IMPORTANT
 ACCOUNT_ACTIVATION_DAYS = 7
 
-#Login Url and default redirection
+# Login Url and default redirection
 LOGIN_URL = 'auth_login'
 LOGIN_REDIRECT_URL = 'dashboard'
 
@@ -150,14 +150,14 @@ STATICFILES_FINDERS = [
     'compressor.finders.CompressorFinder'
 ]
 
-#Django compressor
+# Django compressor
 COMPRESS_ENABLED = True
 COMPRESS_ROOT = STATIC_ROOT
 COMPRESS_PRECOMPILERS = (
     ('text/less', 'lessc {infile} {outfile}'),
 )
 
-#Email config
+# Email config
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# @TODO set value : 
+# @TODO set value :
 # DEFAULT_FROM_EMAIL

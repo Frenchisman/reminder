@@ -9,21 +9,41 @@ html {
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: @footer_height;
+  margin-bottom: @footer_height_xs;
 }
 
-.footer {
+footer {
+  padding-top: 10px;
   position: absolute;
   bottom: 0;
   width: 100%;
   box-shadow: 0px -5px 5px @color_divider;
   /* Set the fixed height of the footer here */
-  height: @footer_height;
+  height: @footer_height_xs;
   background-color: @color_primary_dark;
+}
+
+footer p{
+	color: @color_text_icons;
+}
+
+footer a{
+	color: @color_accent;
+	transition: @transition_default;
+}
+
+footer a:hover{
+	color: @color_accent_dark;
+	transition: @transition_default;
 }
 
 a{
 	color: @color_primary;
+}
+
+h1{
+	font-size: 1.5em;
+	color: @color_text_primary;
 }
 
 /* Material Icons
@@ -145,16 +165,21 @@ code {
 	body > .container{
 		margin-top: 15px;
 	}
+
+	body{
+		margin-bottom: @footer_height;
+	}
+
+	footer{
+		height: @footer_height;
+	}
 }
 
-h1{
-	font-size: 1.5em;
-	color: @color_text_primary;
-}
 
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) { 
+
 
 }
 

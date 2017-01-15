@@ -1,9 +1,12 @@
 {% extends "reminder/base.html" %}
 {% load static %}
 {% load bootstrap3 %}
+{% load compress %}
 
-{% block extrastyle %}
-	<link rel="stylesheet/less" href="{% static "reminder/less/home.less" %}" type="text/css">
+{% block extrastyle %}$
+	{% compress css %}
+	<link rel="stylesheet" href="{% static "reminder/less/home.less" %}" type="text/less">
+	{% endcompress %}
 {% endblock extrastyle %}
 
 {% block extratitle %}
@@ -12,9 +15,9 @@
 
 
 {% block content %}
+	{% if not user.is_authenticated %}
 	<div id="login-form" class="row">
 		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-			{% if not user.is_authenticated %}
 			<form action="." method="post">
 			{% csrf_token %}
 			{% bootstrap_form form %}
@@ -31,7 +34,7 @@
 		</div>
 	</div>
 	{% endif %}
-	<div id="home-img" class="row">
+	<div id="home-img" class="row" {% if user.is_authenticated %}style="margin-top:-13px;"{% endif %}>
 		<div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">		
 			<img class="img-responsive home-img" src="{% static "reminder/img/mail_big.png" %}" alt="logo">			
 		</div>
@@ -49,10 +52,27 @@
 	</div>
 	<div id="faq" class="row">
 		<div class="container">
-			<p><strong>Q:
-				
-			</strong></p>
-			<p><strong>A:</strong></p>
+			<h2 class="text-center">F.A.Q.</h2>
+			<p><strong>Q:</strong>I can't login. PLZ HALP MEEE !</p>
+			<p><strong>A:</strong>That's not a question. If you have forgotten your password, try to <a href="{% url 'auth_password_reset' %}">reset it</a>, if your account is not active and you have lost the activation email, please use the <a href="{% url 'registration_resend' %}">resend activation key</a> link.</p>
+			<hr>
+			<p><strong>Q:</strong>I have not received the activation email, where can I find it ?</p>
+			<p><strong>A:</strong>Check your SPAM folder. If you have not received the email after a few minutes use the <a href="{% url 'registration_resend' %}">resend activation key</a> link.</p>
+			<hr>
+			<p><strong>Q:</strong>Is Visual Reminder free to use ?</p>
+			<p><strong>A:</strong>YES !</p>
+			<hr>
+			<p><strong>Q:</strong>How many reminders can I send ?</p>
+			<p><strong>A:</strong>You can program up to 5 reminders to be sent on a single day. Once you've reached the 5 limit for a day, you can still program reminders for other days.</p>
+			<hr>
+			<p><strong>Q:</strong>Until when can I program my reminders ?</p>
+			<p><strong>A:</strong>You can program a reminder to be sent up to 365 days from now ! Also, we can not send reminders into the past, that feature has not been coded yet.</p>
+			<hr>
+			<p><strong>Q:</strong>This app is great !</p>
+			<p><strong>A:</strong>Again, that's not a question. We're glad you like it. If you want to support the developement of new features, there's no way to make that happen. go donate to a charity.</p>
+			<hr>
+			<p><strong>Q:</strong>Ponies are awesome !</p>
+			<p><strong>A:</strong>(Yes ! We know !)</p>
 		</div>
 	</div>
 

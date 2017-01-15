@@ -1,7 +1,10 @@
 {% extends "reminder/base.html" %}
 {% load static %}
+{% load compress %}
 {% block extrastyle %}
-    <link rel="stylesheet/less" href="{% static "reminder/less/dashboard.less" %}" type="text/css">
+    {% compress css  %}
+    <link rel="stylesheet" href="{% static "reminder/less/dashboard.less" %}" type="text/less">
+    {% endcompress %}
 {% endblock extrastyle %}
 
 {% block content %}

@@ -24,14 +24,12 @@
 	{% bootstrap_css %}
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+    {% compress css %}
+    <link rel="stylesheet" href="{% static "reminder/less/base.less" %}" type="text/less">
+    {% endcompress %}
+    {% block extrastyle %}
+    {% endblock extrastyle %}
 
-	<link rel="stylesheet/less" href="{% static "reminder/less/base.less" %}" type="text/css">
-	{% block extrastyle %}
-	{% endblock extrastyle %}
-
-	{% if debug %}
-		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
-	{% endif %}
 	{% block extrahead %}
 		
 	{% endblock extrahead %}
@@ -87,10 +85,14 @@
     </div>
     <footer class="footer">
     	<div class="container">
-    		<p>
-    		Footer.
-    		</p>
-    	</div>
+        <div class="col-xs-12 col-sm-6">
+          <p>Application designed and coded by Gaël Le Bon</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          
+          <p>This application was created as part of a technical project for <a href="http://www.formation-isfac.com/">ISFAC</a>.</p>
+        </div>
+      </div>
     </footer>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
 	{% bootstrap_javascript %}
