@@ -65,13 +65,13 @@
 
             {% if not user.is_authenticated %}
             <li class="{% if request.resolver_match.view_name == 'auth_login' %}active{% endif %}"><a href="{% url 'auth_login' %}"><i class="material-icons">launch</i><span class="icon-text">Log In</span></a></li>
-            <li><a href="{% url 'registration_register' %}"><i class="material-icons">account_circle</i><span class="icon-text">Register</span></a></li>
+            <li class="{% if request.resolver_match.view_name == 'registration_register' %}active{% endif %}"><a href="{% url 'registration_register' %}"><i class="material-icons">account_circle</i><span class="icon-text">Register</span></a></li>
 
             {% else %}
             {# Logged in users #}
-            <li><a href="{% url 'dashboard' %}"><i class="material-icons">dashboard</i><span class="icon-text">Dashboard</span></a></li>
-            <li><a href="{% url 'profile' %}"><i class="material-icons">account_circle</i><span class="icon-text">Profile</span></a></li>
-            <li><a href="{% url 'logout' %}"><i class="material-icons">exit_to_app</i><span class="icon-text">Log Off</span></a></li>	
+            <li class="{% if request.resolver_match.view_name == 'dashboard' %}active{% endif %}"><a href="{% url 'dashboard' %}"><i class="material-icons">dashboard</i><span class="icon-text">Dashboard</span></a></li>
+            <li class="{% if request.resolver_match.view_name == 'profile' %}active{% endif %}"><a href="{% url 'profile' %}"><i class="material-icons">account_circle</i><span class="icon-text">Profile</span></a></li>
+            <li class="{% if request.resolver_match.view_name == 'logout' %}active{% endif %}"><a href="{% url 'logout' %}"><i class="material-icons">exit_to_app</i><span class="icon-text">Log Off</span></a></li>	
             {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
