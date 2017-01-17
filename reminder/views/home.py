@@ -59,4 +59,8 @@ class ForbiddenView(View):
     template_name = 'reminder/forbidden.html'
 
     def get(self, request):
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'You do not have access to this page.')
         return render(request, self.template_name)

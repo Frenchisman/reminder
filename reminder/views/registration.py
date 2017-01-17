@@ -91,6 +91,8 @@ class ResendActivationEmailView(View):
                 message = render_to_string(self.email_body_template, context)
                 user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
                 return HttpResponseRedirect(reverse('registration_resent'))
+        context = {'form': form}
+        return render(request, self.template_name, context)
 
 
 class ResentActivationEmailView(View):
@@ -104,4 +106,3 @@ class ResentActivationEmailView(View):
             return HttpResponseRedirect(reverse('dashboard'))
 
         return render(request, self.template_name)
-

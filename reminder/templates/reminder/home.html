@@ -31,6 +31,14 @@
 				</div>
 				{% endbuttons %}
 			</form>
+			<div class="extra_links">
+				<div class="col-xs-12 col-sm-6 text-center">
+					<a href="{% url 'auth_password_reset' %}">Forgot your password ?</a>
+				</div>
+				<div class="col-xs-12 col-sm-6 text-center">
+					<a href="{% url 'registration_register' %}">Register Now !</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	{% endif %}

@@ -106,10 +106,10 @@ class ReminderEditView(LoginRequiredMixin, View):
         except Reminder.DoesNotExist:
             reminder = None
 
-        # Warn user if reminder does not exist anymore.
+        # Warn user if reminder does not exist
         if reminder is None:
-            messages.add_message(request, messages.INFO,
-                                 'This reminder does not exist anymore.')
+            messages.add_message(request, messages.ERROR,
+                                 'Nice try, but this reminder does not exist.')
             return dashboard()
 
         # Redirect user if trying to edit someone else's reminder.
@@ -217,8 +217,8 @@ class ReminderDeleteView(LoginRequiredMixin, View):
 
         # Warn user if reminder does not exist anymore.
         if reminder is None:
-            messages.add_message(request, messages.INFO,
-                                 'This reminder does not exist anymore.')
+            messages.add_message(request, messages.ERROR,
+                                 'Nice try, but this reminder does not exist.')
             return dashboard()
 
         # Redirect user if trying to delete someone else's reminder.
@@ -227,7 +227,9 @@ class ReminderDeleteView(LoginRequiredMixin, View):
 
         if reminder.is_sent:
             messages.add_message(
-                request, messages.INFO, 'This reminder has already been sent. It can not be deleted.')
+                request,
+                messages.INFO,
+                'This reminder has already been sent. It can not be deleted.')
             return dashboard()
 
         # No problems, we delete the reminder and notify the user.

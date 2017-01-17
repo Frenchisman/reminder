@@ -39,6 +39,14 @@ footer a:hover{
 
 a{
 	color: @color_primary;
+	transition: @transition_default
+}
+
+a:hover,
+a:active{
+	transition: @transition_default;
+	color: @color_accent_dark;
+	text-decoration: none;
 }
 
 h1{
@@ -149,6 +157,7 @@ h1{
 
 body > .container-fluid {
   padding-top: 70px;
+  padding-bottom: 10px;
 }
 
 .footer > .container {
