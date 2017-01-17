@@ -6,6 +6,8 @@ import pymysql
 import datetime
 import smtplib
 from time import sleep
+
+
 lock_socket = None
 '''
 We want to keep the socket open until the end of our script so we use a global
@@ -32,10 +34,10 @@ def is_lock_free():
 
 
 def send_reminders(**kwargs):
-    ''' 
+    '''
     Sends the reminders from database, and updates the sent reminders.
 
-    Arguments : 
+    Arguments :
     dbhost : the database host
     db : the database name,
     dbuser : the database user,
@@ -46,6 +48,7 @@ def send_reminders(**kwargs):
     smtpuser : the smtpuser
     smtppwd : the smtp password
     '''
+
     # Set the timezone to local timezone
     os.environ['TZ'] = 'Europe/Paris'
 
@@ -64,7 +67,6 @@ def send_reminders(**kwargs):
             cursor.execute(query)
             results = cursor.fetchall()
 
-            # If we have reminders to send, connect to the smtp server.
             two_minutes_from_now = (datetime.datetime.now(
             ) + datetime.timedelta(minutes=2)).time()
             twenty_two_minutes_ago = (datetime.datetime.now(
@@ -73,7 +75,7 @@ def send_reminders(**kwargs):
             reminders_to_send = []
             # For each reminder
             for result in results:
-                # Get the time it should be sent
+                # Get the time the reminder should be sent.
                 tts = (datetime.datetime.min + result['time_to_send']).time()
                 # Check whether we should send the reminder
                 if tts < two_minutes_from_now and tts > twenty_two_minutes_ago:
@@ -87,15 +89,15 @@ def send_reminders(**kwargs):
                     reminders_to_send.append(reminder)
 
             if reminders_to_send:
-                # If we have reminders to send, connect to the smtp server
+                # We connect to the smtp server only if we need to send
+                # reminders
                 try:
+                    # Host:Port
                     smtpserv = smtplib.SMTP(
                         kwargs['smtphost'] + ':' + kwargs['smtpport'])
 
                 except Exception:
                     logging.info("Could not contact smtp server")
-                    print(kwargs['smtphost'] + ':' + kwargs['smtpport'])
-                    print("NO server")
                     pass
                 else:
                     try:
@@ -103,11 +105,10 @@ def send_reminders(**kwargs):
                         pass
                     except smtplib.SMTPAuthenticationError:
                         logging.info("Could not login to SMTP server")
-                        print(" Login Failed")
                     else:
                         sent = []
                         for reminder in reminders_to_send:
-                            # First we create the email
+                            # First we create the email content
                             fromaddr = "reminder-no-reply@gaellebon.pythonanywhere.com"
                             toaddr = reminder['recipient']
                             msg = "\r\n".join([
@@ -115,7 +116,7 @@ def send_reminders(**kwargs):
                                 "To: " + toaddr,
                                 "Subject: " + reminder['subject'],
                                 "",
-                                result['body'],
+                                reminder['body'],
                                 "",
                                 " -------------------- ",
                                 "",
@@ -128,26 +129,32 @@ def send_reminders(**kwargs):
                             try:
                                 smtpserv.sendmail(fromaddr, toaddr, msg)
                                 # If email is sent, add its id to the sent list
-                                print(msg)
                                 sent.append(reminder['id'])
                             except Exception:
                                 logging.info(
-                                    "Could not send reminder #" + reminder['id'])
-                                print('Sendmail derped')
-                        # close connection with smtp server
+                                    "Could not send reminder #" +
+                                    reminder['id']
+                                )
+                        # Close connection with smtp server once all reminders
+                        # have been sent
                         smtpserv.quit()
 
-                        # If we have sent reminders, we now update the database
+                        # If reminders have been sent, update the database
+                        # This should probably be in the sendmail try block.
+                        # ¯\_(ツ)_/¯
                         if sent:
                             for i in sent:
                                 with connection.cursor() as cursor:
                                     # update the reminder record
-                                    query = "update reminder_reminder set is_sent = 1 where id = %s"
+                                    query = ("update reminder_reminder set " +
+                                             "is_sent = 1 where id = %s")
+                                    # Execute query with argument i
                                     cursor.execute(query, i)
 
                             # Save the changes
                             connection.commit()
     finally:
+        # Once everything is done, we close the db connection.
         connection.close()
     return True
 
