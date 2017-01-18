@@ -64,3 +64,14 @@ class ForbiddenView(View):
             messages.ERROR,
             'You do not have access to this page.')
         return render(request, self.template_name)
+
+
+class Error404View(View):
+    template_name = 'reminder/404.html'
+
+    def get(self, request):
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'Error 404 : Page not found')
+        return render(request, self.template_name)

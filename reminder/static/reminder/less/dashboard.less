@@ -63,16 +63,33 @@
 	color: @color_text_secondary;
 }
 
+
+
+
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+	.tab-content> .tab-pane > .col-sm-6:nth-child(2n+1) {
+   		clear: both;
+	}
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-
+	.tab-content> .tab-pane > .col-md-4:nth-child(3n+1){
+		clear: both;
+	}
+	.tab-content> .tab-pane > .col-sm-6:nth-child(2n+1) {
+   		clear: none;
+	}
 }
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-
+	.tab-content> .tab-pane > .col-md-4:nth-child(3n+1){
+		clear: none;
+	}
+	.tab-content> .tab-pane > .col-lg-3:nth-child(4n+1){
+		clear: both;
+	}
 }

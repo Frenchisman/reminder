@@ -12,7 +12,6 @@ from reminder.views.authenticated import (DashboardView, ReminderCreationView,
 from django.contrib.auth import views as auth_views
 from reminder.forms.login import LoginForm
 
-
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^dashboard/$', DashboardView.as_view(), name='dashboard'),

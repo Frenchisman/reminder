@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import RedirectView
 
+
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url='reminder/')),
     url(r'^reminder/', include('reminder.urls')),

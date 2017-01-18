@@ -86,7 +86,7 @@ class ResendActivationEmailView(View):
                 # <component1>:<component2>
                 # where component1 is a base64 encoded representation
                 # of argument 1 and component 2 is a base64 encoded hmac-sha1 
-                # hash of arg1+arg2
+                # hash of arg1+arg2, signed using the timestamp
                 activation_key = signing.dumps(
                     obj=getattr(user, user.USERNAME_FIELD),
                     salt=REGISTRATION_SALT,
@@ -108,7 +108,7 @@ class ResendActivationEmailView(View):
                 # Send the email to the user.
                 user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
                 return HttpResponseRedirect(reverse('registration_resent'))
-                
+
         # when form does not have valid input, resend the form.
         context = {'form': form}
         return render(request, self.template_name, context)
