@@ -67,7 +67,8 @@ h1{
 /* Buttons
 ------------------------------------------ */
 
-.btn-primary{
+.btn-primary,
+.btn-default{
 	background: @color_primary;
 	border-color: @color_primary_dark;
 	font-weight: bold;
@@ -75,7 +76,10 @@ h1{
 }
 .btn-primary:hover,
 .btn-primary:active:hover,
-.btn-primary:active{
+.btn-primary:active,
+.btn-default:hover,
+.btn-default:active:hover,
+.btn-default:active{
 	color: @color_primary;
 	background: @color_text_icons;
 	font-weight: bold;
@@ -167,6 +171,15 @@ body > .container-fluid {
 
 code {
   font-size: 80%;
+}
+
+.ui-datebox-container .modal-title{
+	color: @color_primary;
+}
+
+.ui-datebox-container .bg-success{
+	background: @color_accent;
+	
 }
 
 /* Small devices (tablets, 768px and up) */

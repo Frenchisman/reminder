@@ -1,0 +1,102 @@
+.btn{
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+ .btn:hover, .btn-primary.active, .btn-default.active,
+ .btn-success.active, .btn-info.active, .btn-warning.active,
+ .btn-danger.active{
+
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+
+}
+
+.btn {
+  border-radius: 2px;
+  border: 0;
+  transition: .2s ease-out;
+  color: #fff;
+  margin: 6px;
+  white-space: normal !important;
+  word-wrap: break-word;
+  text-transform: uppercase;
+}
+
+
+.btn:hover {
+  color: #fff;
+}
+
+.btn:active, .btn:focus, .btn.active {
+  outline: 0;
+  color: #fff;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+.btn-default {
+  background: #2BBBAD;
+}
+
+.btn-default:hover, .btn-default:focus {
+  background-color: #30cfc0;
+}
+
+.btn-default.active {
+  background-color: #186860;
+}
+
+.btn-success {
+  background: #00C851;
+}
+
+.btn-success:hover, .btn-success:focus {
+  background-color: #00d255;
+}
+
+.btn-success.active {
+  background-color: #006228;
+}
+
+.btn-info {
+  background: #33b5e5;
+}
+
+.btn-info:hover, .btn-info:focus {
+  background-color: #4abde8;
+}
+
+.btn-info.active {
+  background-color: #14799e;
+}
+
+.btn-warning {
+  background: #FF8800;
+}
+
+.btn-warning:hover, .btn-warning:focus {
+  background-color: #ff961f;
+}
+
+.btn-warning.active {
+  background-color: #cc8800;
+}
+
+.btn-danger {
+  background: #CC0000;
+}
+
+.btn-danger:hover, .btn-danger:focus {
+  background-color: #db0000;
+}
+
+.btn-danger.active {
+  background-color: maroon;
+}
+
+.btn-group .btn,
+.btn-group-vertical .btn {
+  margin: 0;
+}
+
